@@ -27,10 +27,16 @@ if(isset($_GET['id']) and !empty($_GET['id'])){
             header('location: index.php');
         }
     }else{
-        echo "aucun article trouve";
+        ?>
+        <script type="text/javascript">
+      alert("aucun article trouve");
+      </script><?php 
     }
 }else{
-    echo "aucun identifiant trouve";
+    ?>
+    <script type="text/javascript">
+  alert("aucun identifiant trouve");
+  </script><?php
 }
 ?>
 <!DOCTYPE html>
