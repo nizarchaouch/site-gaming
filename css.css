@@ -1,0 +1,77 @@
+#header-wrapper{
+    background:  #111111 url(espace_client/images/R.jpg) no-repeat center ;
+    position: relative;
+    background-size: cover;
+    height: 800px;
+    margin-bottom: 150px;
+}
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #6a11cb;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 116, 252, 0.814))
+    }
+#logo img{
+    height: 40px;  
+}
+.navbar{
+    background: rgba(0, 0, 0, 0.623);
+}
+.animNAv{
+    background: #000000;
+}
+.bi-box-arrow-in-right{
+    color: rgb(255, 255, 255);
+}
+.bi-cart{
+    color: rgb(255, 255, 255);
+}
+#img {
+    max-width: 100%;
+    height: auto;
+}
+.fa-star{
+    color: rgb(227, 234, 31);
+}
+.card{
+    margin-top: 30%;
+}
+
+/**********************************************FOOTER *********************************************************/
+#footer{
+    background-color: #111111;
+    color: aliceblue;
+    height: 300px;
+    text-align: center;
+    margin-top: 80px;
+    padding: 90px;
+    overflow:hidden;
+}
+#footer .text-secondary{
+    text-align: justify;
+    padding-left: 89px;
+}
+#footer .titer{
+    font-family:cursive;
+    font-size: x-large; 
+    color: antiquewhite;  
+}
+#footer .bi {
+    margin: 10px;
+    color: rgb(185, 112, 69);
+}
+#footer .bi:hover{
+    color: rgb(228, 158, 28);
+}
+#mail a{
+    margin: 5px;
+    color: rgb(185, 112, 69);
+}
+#mail a:hover{
+    color: rgb(228, 158, 28);
+    text-decoration: none;   
+}
