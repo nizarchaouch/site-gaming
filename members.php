@@ -56,7 +56,7 @@ if (!$_SESSION['admin']) {
             <li class="list-group-item active col-md-2" aria-current="true">Mail</li>
             <li class="list-group-item active col-md-2" aria-current="true">Tel</li>
             <li class="list-group-item active col-md-2" aria-current="true">Address</li>
-            <li class="list-group-item active col-md-2" aria-current="true">Etat </li>
+            <li class="list-group-item active col-md-3" aria-current="true">Etat </li>
         </ul>
         <ul class="list-group list-group-horizontal d-flex justify-content-center ">
             <li class="list-group-item col-md-2 ">
@@ -110,7 +110,7 @@ if (!$_SESSION['admin']) {
                 <?php
                 ?>
             </li>
-            <li class="list-group-item col-md-2 ">
+            <li class="list-group-item col-md-3 ">
                 <?php
                 $recupuser = $bdd->query('SELECT * from membres');
                 while ($user = $recupuser->fetch()) {
