@@ -9,7 +9,7 @@ if(isset($_GET['id']) and !empty($_GET['id'])){
         $supprime->execute(array($getid));
         header('location: members.php');
     }else{
-        echo "aucun article trouve";
+        echo "aucun client trouve";
     }
 }else{
     echo "aucun identifiant trouve";
