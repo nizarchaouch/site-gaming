@@ -73,11 +73,9 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
                                     src="<?php echo 'espace_client/images/' . $article['image'] ?>"
                                     class="img-fluid card-img-top" alt="product image"></div>
                             <div class="card-body">
-                                <h5 class="card-title text-uppercase">
+                                <h5 class="card-title text-uppercase ">
                                     <?php echo $article['titre'] ?>
                                 </h5>
-                                <input type="text" id="input-title" class="form-control" style="display: none;" name="id"
-                                    value="<?= $article['id']; ?>">
                                 <h6>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -91,7 +89,7 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
                                 <h5>
                                     <span class="price"><?php echo $article['prix'] ?> dt</span>
                                 </h5>
-                                <a class="btn btn-warning my-3" href="ajouter_painer.php?id=<?= $article['id']; ?>">Ajouter au panier <i
+                                <a class="btn btn-warning my-3 col-md-7 col-sm-6" href="ajouter_painer.php?id=<?= $article['id']; ?>">Ajouter au panier <i
                                         class="fas fa-shopping-cart"></i></a>
                             </div>
                         </div>
