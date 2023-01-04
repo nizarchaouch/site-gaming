@@ -16,6 +16,7 @@ if(isset($_GET['id'])){
     }
     if(isset($_SESSION['panier'][$id])){
         $_SESSION['panier'][$id]++;
+        header("Location:articles.php");
     }else{
         $_SESSION['panier'][$id] = 1;
         header("Location:articles.php");
