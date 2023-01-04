@@ -1,6 +1,14 @@
 <?php
 session_start();
 $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
+if (!$_SESSION['user']) {
+    header('location: connexion.php');
+}
+if(isset($_GET['del'])){
+    $id_del = $_GET['del'];
+    unset($_SESSION['panier'][$id_del]);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -8,19 +16,21 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
 
 <head>
     <meta charset="UTF-8">
-    <title>Playstation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css.css">
+    <title>Panier</title>
     <link rel="stylesheet" href="css.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/png" href="espace_client/images/logo.png">
-
 </head>
 
 <body>
-    <header id="header-wrapper">
-    <nav class="navbar navbar-expand-md  navbar-light " style="position: fixed; width: 100%; z-index: 1000;">
+    <header>
+        <nav class="navbar navbar-expand-md  navbar-light " style="position: fixed; width: 100%; z-index: 1000;">
             <div id="logo"> <a href="index.php"><img src="espace_client/images/logo.png"></a></div>
             <button type="button" class="navbar-toggler bg-light"> <span class="navbar-toggler-icon"
                     data-toggle="collapse" data-target="#nav"></span></button>
@@ -54,58 +64,55 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
             </div>
         </nav>
     </header>
-    <?php
-    $recuparticles = $bdd->query('SELECT * FROM articles');
-    ?>
-
-
-    <div class="container-fluid">
-        <div class="row text-center ">
-            <?php
-            while ($article = $recuparticles->fetch()) {
-                ?>
-                <div class="col-md-3 col-sm-6 my-3 my-md-2">
-                    <form action="" method="post">
-                        <div class="card shadow" style="height: 490px; border-radius: 20px; ">
-                            <div class="card-header" id="img"
-                                style="border-top-right-radius:15px;border-top-left-radius:15px;"><img
-                                    style="height: 200px; width: 370px;"
-                                    src="<?php echo 'espace_client/images/' . $article['image'] ?>"
-                                    class="img-fluid card-img-top" alt="product image"></div>
-                            <div class="card-body">
-                                <h5 class="card-title text-uppercase">
-                                    <?php echo $article['titre'] ?>
-                                </h5>
-                                <input type="text" id="input-title" class="form-control" style="display: none;" name="id"
-                                    value="<?= $article['id']; ?>">
-                                <h6>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </h6>
-                                <p class="card-text">
-                                    <?php echo $article['description'] ?>
-                                </p>
-                                <h5>
-                                    <span class="price"><?php echo $article['prix'] ?> dt</span>
-                                </h5>
-                                <a class="btn btn-warning my-3" href="ajouter_painer.php?id=<?= $article['id']; ?>">Ajouter au panier <i
-                                        class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <?php
-
-            }
-            ?>
-        </div>
+    <div id="container" class="pb-5 pt-5 ">
+        <ul class="list-group ist-group-item-dark list-group-horizontal d-flex justify-content-center"
+            style="padding-top: 70px;">
+            
+            <li class="list-group-item list-group-item-dark d-flex justify-content-center col-md-4" aria-current="true">Nom</li>
+            <li class="list-group-item list-group-item-dark col-md-2" aria-current="true">Prix</li>
+            <li class="list-group-item list-group-item-dark col-md-2" aria-current="true">Quantite</li>
+            <li class="list-group-item list-group-item-dark col-md-2" aria-current="true">Action </li>
+        </ul>
+        <?php
+        $total = 0;
+        $ids = array_keys($_SESSION['panier']);
+        if (empty($ids)) {
+            ?><h5 class=" d-flex justify-content-center " style="margin: 10%;">Votre panier est vide</h5><?php
+        } else {
+            foreach ($ids as $id):
+                $produits = $bdd->query('SELECT * FROM articles where id=' . $id . ' ');
+                while ($article = $produits->fetch()) {
+                    $total += $article['prix'] * $_SESSION['panier'][$article['id']];
+                    ?>
+        <ul class="list-group list-group-horizontal d-flex justify-content-center">
+            <li class="list-group-item  col-md-1" style=" width: 80%; height: 70%;"><img class="imgp rounded"
+                    src=<?php echo 'espace_client/images/' . $article['image'] ?> alt=""></li>
+            <li class="list-group-item  col-md-3">- <?php echo $article['titre'] ?><br><?php echo $article['description'] ?></li>
+            <li class="list-group-item  col-md-2"><?php echo $article['prix'] ?> dt</li>
+            <li class="list-group-item  col-md-2"><?= $_SESSION['panier'][$article['id']] ?></li>
+            <li class="list-group-item  col-md-2"><a href="panier.php?del=<?= $article['id'] ?>"><button class="btn btn-danger rounded-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash3" viewBox="0 0 16 16">
+                        <path
+                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                    </svg>
+                </button> </a></li>
+        </ul>
+        <?php
+                }
+                ;
+            endforeach;
+        } ?>
+        <ul class="list-group ist-group-item-dark list-group-horizontal d-flex justify-content-center">
+            <li class="list-group-item list-group-item-light col-md-10 d-flex justify-content-between">
+                <h5 class="text-primary">total: <?= $total ?>dt</h5>
+                <button class="btn btn-success">Acheter</button>
+            </li>
+        </ul>
     </div>
-
-    <footer>
-        <section id="footer">
+</body>
+<footer >
+        <section id="footer" >
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -140,11 +147,4 @@ $bdd = new PDO('mysql:host=127.0.0.1;dbname=espace_admin', 'root', '');
             </div>
         </section>
     </footer>
-
-    <script src="js.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
 </html>

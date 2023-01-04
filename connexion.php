@@ -22,7 +22,7 @@ if (isset($_POST['valider'])) {
       header('location: index.php');
     } elseif ($mail_saisi == $user['mail'] and $mdp_saisi == $smdp['mdp'] and $user['etat'] == 1) {
       $_SESSION['user'] = $mail_saisi;
-      header('location: profil.php');
+      header('location: articles.php');
     } elseif ($mail_saisi == $user['mail'] and $mdp_saisi == $smdp['mdp'] and $user['etat'] == -1) {
 ?>
 <script type="text/javascript">
